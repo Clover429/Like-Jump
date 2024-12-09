@@ -1,0 +1,107 @@
+[gd_scene load_steps=9 format=3 uid="uid://cfugxul2g8si5"]
+
+[ext_resource type="Script" path="res://scenes/objects/counter.gd" id="1_jgfyr"]
+[ext_resource type="FontFile" uid="uid://b7mjbsfetgi5m" path="res://assets/fonts/8bit16.ttf" id="2_upd0b"]
+[ext_resource type="Texture2D" uid="uid://c13oandi7swce" path="res://assets/objects/empty_heart.png" id="2_x0qmx"]
+[ext_resource type="Texture2D" uid="uid://bibr6xcmymeao" path="res://assets/objects/heart.png" id="3_bmvh2"]
+[ext_resource type="Texture2D" uid="uid://bh6hxpo12ux5n" path="res://assets/objects/coin.png" id="4_o24tm"]
+[ext_resource type="Texture2D" uid="uid://n5iibrvcf0u6" path="res://assets/objects/coin1.png" id="5_kekxu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l37k5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x0qmx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_bmvh2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_x0qmx")
+}],
+"loop": false,
+"name": &"empty",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_bmvh2")
+}],
+"loop": true,
+"name": &"full",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1wujm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_o24tm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kekxu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.5
+}]
+
+[node name="Counter" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_jgfyr")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Heart1" type="AnimatedSprite2D" parent="."]
+position = Vector2(970, 36.5)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_l37k5")
+animation = &"empty"
+autoplay = "full"
+
+[node name="Heart2" type="AnimatedSprite2D" parent="."]
+position = Vector2(1040, 36.5)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_l37k5")
+animation = &"empty"
+autoplay = "full"
+
+[node name="Heart3" type="AnimatedSprite2D" parent="."]
+position = Vector2(1110, 36.5)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_l37k5")
+animation = &"empty"
+autoplay = "full"
+
+[node name="Coin" type="AnimatedSprite2D" parent="."]
+position = Vector2(22, 30)
+scale = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_1wujm")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 45.0
+offset_top = 10.0
+offset_right = 90.0
+offset_bottom = 48.0
+theme_override_fonts/font = ExtResource("2_upd0b")
+theme_override_font_sizes/font_size = 60
+text = "0"

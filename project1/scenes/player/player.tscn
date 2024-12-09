@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=3 uid="uid://baospphrome3n"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_bk2ea"]
+[ext_resource type="Texture2D" uid="uid://b7piloiqcnkge" path="res://assets/player/tile_0107.png" id="2_0s86m"]
+[ext_resource type="Texture2D" uid="uid://coa6ync0twe7f" path="res://assets/player/tile_0112.png" id="3_blfj5"]
+[ext_resource type="Texture2D" uid="uid://c54hlln14ef02" path="res://assets/player/tile_0106.png" id="3_dhleo"]
+[ext_resource type="Texture2D" uid="uid://7cboghd34t0j" path="res://assets/player/tile_0110.png" id="4_upqi6"]
+[ext_resource type="Texture2D" uid="uid://doyfjmceqgxbm" path="res://assets/player/tile_0111.png" id="5_1stxu"]
+[ext_resource type="PackedScene" uid="uid://hmcxrtqqhn1o" path="res://scenes/objects/shooter.tscn" id="7_5orv3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3ovi1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_dhleo")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_dhleo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_blfj5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0s86m")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_upqi6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1stxu")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8jng"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ha4wj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5qumh"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 8
+script = ExtResource("1_bk2ea")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_3ovi1")
+animation = &"dead"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+scale = Vector2(0.3, 0.3)
+shape = SubResource("RectangleShape2D_d8jng")
+
+[node name="Collector" type="Area2D" parent="."]
+position = Vector2(0, -4)
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collector"]
+scale = Vector2(0.3, 0.3)
+shape = SubResource("RectangleShape2D_ha4wj")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -15)
+zoom = Vector2(5, 5)
+limit_bottom = 40
+
+[node name="Shooter" parent="." instance=ExtResource("7_5orv3")]
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.7
+one_shot = true
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 80
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -4)
+scale = Vector2(0.3, 0.3)
+shape = SubResource("RectangleShape2D_5qumh")
+
+[node name="Invincibility" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="timeout" from="Invincibility" to="." method="_on_invincibility_timeout"]

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfkqkj4oktnao"]
+
+[ext_resource type="Script" path="res://scenes/base/path_enemy_base.gd" id="1_yyby0"]
+
+[sub_resource type="Curve2D" id="Curve2D_5ccbe"]
+
+[node name="PathEnemyBase" type="CharacterBody2D"]
+collision_layer = 16
+script = ExtResource("1_yyby0")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_5ccbe")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+rotation = 1.5708
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D"]
+
+[node name="HitBox" type="Area2D" parent="Path2D/PathFollow2D"]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/HitBox"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="area_entered" from="Path2D/PathFollow2D/HitBox" to="." method="_on_hit_box_area_entered"]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk6v1i0whnl8v"]
+
+[ext_resource type="PackedScene" uid="uid://8txigykoh1c6" path="res://scenes/enemies/flyer.tscn" id="1_70edd"]
+[ext_resource type="Script" path="res://scenes/enemies/flyer_h.gd" id="2_tcioq"]
+
+[sub_resource type="Curve2D" id="Curve2D_5ibtw"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 3
+
+[node name="FlyerH" instance=ExtResource("1_70edd")]
+script = ExtResource("2_tcioq")
+
+[node name="Path2D" parent="." index="0"]
+curve = SubResource("Curve2D_5ibtw")

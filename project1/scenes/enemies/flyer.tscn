@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://8txigykoh1c6"]
+
+[ext_resource type="PackedScene" uid="uid://cfkqkj4oktnao" path="res://scenes/base/path_enemy_base.tscn" id="1_j3sn1"]
+[ext_resource type="Texture2D" uid="uid://but7edqki44n8" path="res://assets/enemies/tile_0114.png" id="2_ckah2"]
+[ext_resource type="Script" path="res://scenes/enemies/flyer.gd" id="2_v5mr5"]
+[ext_resource type="Texture2D" uid="uid://c8xeqc8jlbkrs" path="res://assets/enemies/tile_01141.png" id="3_hfht7"]
+[ext_resource type="PackedScene" uid="uid://hmcxrtqqhn1o" path="res://scenes/objects/shooter.tscn" id="4_g7bu8"]
+
+[sub_resource type="Curve2D" id="Curve2D_wt7xw"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v2enl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ckah2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hfht7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.5
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05jfr"]
+
+[node name="Flyer" instance=ExtResource("1_j3sn1")]
+script = ExtResource("2_v5mr5")
+
+[node name="Path2D" parent="." index="0"]
+curve = SubResource("Curve2D_wt7xw")
+
+[node name="PathFollow2D" parent="Path2D" index="0"]
+rotation = 0.0
+rotates = false
+
+[node name="AnimatedSprite2D" parent="Path2D/PathFollow2D" index="0"]
+sprite_frames = SubResource("SpriteFrames_v2enl")
+autoplay = "default"
+
+[node name="CollisionShape2D" parent="Path2D/PathFollow2D/HitBox" index="0"]
+scale = Vector2(0.4, 0.4)
+shape = SubResource("RectangleShape2D_05jfr")
+
+[node name="Shooter" parent="." index="3" instance=ExtResource("4_g7bu8")]
+
+[node name="ShootTimer" type="Timer" parent="." index="4"]
+one_shot = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
